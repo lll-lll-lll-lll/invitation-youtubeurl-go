@@ -1,0 +1,12 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/youtube-url-converter/youtube-url-imgage', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/youtube-url-converter/youtube-url-imgage']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'youtube-url-service', '--image', 'gcr.io/youtube-url-converter/youtube-url-imgage', '--region', 'asia-northeast1-a']
+images:
+- gcr.io/youtube-url-converter/youtube-url-imgage
