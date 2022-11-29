@@ -7,6 +7,6 @@ steps:
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
-  args: ['run', 'deploy', 'youtube-url-service', '--image', 'gcr.io/youtube-url-converter/youtube-url-imgage', '--region', 'asia-northeast1-a']
+  args: ['run', 'deploy', 'youtube-url-service', '--image', 'gcr.io/youtube-url-converter/youtube-url-imgage', '--region', 'asia-northeast1']
 images:
 - gcr.io/youtube-url-converter/youtube-url-imgage
