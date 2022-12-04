@@ -18,6 +18,7 @@ ENV GOOS=linux \
     GOARCH=amd64 \
     CGO_ENABLED=0
 COPY ./ ./
-RUN go build -o /backend_api
+RUN go get github.com/lib/pq
+RUN go build cmd/main.go
 EXPOSE 8080
-CMD [ "/backend_api" ]
+CMD [ "./main" ]
