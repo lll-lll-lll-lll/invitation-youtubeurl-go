@@ -1,13 +1,41 @@
 version: "3"
 services:
-  client:
+  # client:
+  #   environment:
+  #     - NODE_ENV="dev"
+  #   build: ./client
+  #   tty: true
+  #   ports:
+  #     - "3000:3000"
+  #   container_name: youtube-url-container
+  #   volumes:
+  #     - ./client:/app
+  #   command: sh -c "npm run dev"
+
+  postgres:
+    container_name: postgres
+    image: postgres
     environment:
-      - NODE_ENV="dev"
-    build: ./client
+      - POSTGRES_USER=app_user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=app_db
+    tty: true
+    restart: always
+    user: root
+    volumes:
+      - ./docker/init:/docker-entrypoint-initdb.d
+      - /etc/localtime:/etc/localtime:ro
+
+  app:
+    container_name: app
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
     tty: true
     ports:
-      - "3000:3000"
-    container_name: youtube-url-container
+      - "8080:8080"
     volumes:
-      - ./client:/app
-    command: sh -c "npm run dev"
+      - ./backend:/app
+    working_dir: /app

@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	container "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/container"
+	db "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/db"
 )
 
 func main() {
@@ -15,6 +16,8 @@ func main() {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": "faild to bind json"})
 			return
 		}
+		db := db.NewPostgreSql()
+		db.Open()
 	})
 	router.Run(":8080")
 }
