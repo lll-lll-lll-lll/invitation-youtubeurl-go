@@ -1,7 +1,6 @@
 package container
 
 import (
-	"crypto/cipher"
 	"fmt"
 
 	"github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/config"
@@ -22,7 +21,6 @@ type Container struct {
 	YoutubeURL    config.YoutubeURL `json:"youtube_url"`
 	IV            string            `json:"iv"`
 	Key           string            `json:"key"`
-	Cipher        cipher.Block
 	EncryptedText []byte
 }
 
@@ -48,7 +46,6 @@ func New(input Input) (*Container, error) {
 	container := &Container{
 		IV:            string(iv),
 		Key:           key,
-		Cipher:        cipher,
 		EncryptedText: encryptedText,
 		YoutubeURL:    youTubeURL,
 	}
