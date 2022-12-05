@@ -15,8 +15,12 @@ CREATE TABLE users (
 
 CREATE TABLE invitation_users (
     id UUID PRIMARY KEY NOT NULL DEFAULT gen_random_uuid() references users(id),
-    invitation_code VARCHAR(100) NOT NULL UNIQUE,
+    invitation_code VARCHAR(100) NOT NULL UNIQUE references invitation_codes(code),
     iv TEXT NOT NULL,
     key TEXT NOT NULL,
-    encrypted_text TEXT NOT NULL,
+    encrypted_text TEXT NOT NULL
+);
+
+CREATE TABLE invitation_codes (
+    code VARCHAR(100) PRIMARY KEY NOT NULL UNIQUE
 );
