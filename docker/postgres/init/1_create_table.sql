@@ -8,16 +8,15 @@ CREATE DATABASE app_db;
 GRANT ALL PRIVILEGES ON DATABASE app_db TO app_db;
 
 CREATE TABLE users (
-    id UUID NOT NULL DEFAULT gen_random_uuid(),
-    name NVARCHAR(255) NOT NULL,
+    id UUID PRIMARY KEY NOT NULL DEFAULT gen_random_uuid() COMMENT 'ユーザID',
+    name VARCHAR(255) NOT NULL COMMENT 'ユーザ名',
     password VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE invitation_users (
-    id UUID NOT NULL DEFAULT gen_random_uuid(),
-    invitation_code VARCHAR(100) NOT NULL,
+    id UUID PRIMARY KEY NOT NULL DEFAULT gen_random_uuid() references users(id),
+    invitation_code VARCHAR(100) NOT NULL UNIQUE,
     iv TEXT NOT NULL,
     key TEXT NOT NULL,
     encrypted_text TEXT NOT NULL,
-    foreign key (id) references users(id)
 );
