@@ -18,19 +18,20 @@ func (i Input) String() string {
 }
 
 type Container struct {
-	YoutubeURL    config.YoutubeURL `json:"youtube_url"`
-	IV            string            `json:"iv"`
-	Key           string            `json:"key"`
-	EncryptedText []byte
+	// 復号に使うIV
+	IV string `json:"iv"`
+	// 復号に使うkey
+	Key string `json:"key"`
+	// idとパスワードとYoutubeURLを含んだ暗号文
+	EncryptedText []byte `json:"encrypted_text"`
 }
 
-// New youtubeのurlと、idとパスワードから生成した暗号文を持つコンテナを生成
+// New youtubeのurlと、idとパスワード、youtubeurlから生成した暗号文を持つコンテナを生成
 func New(input Input) (*Container, error) {
 	byteNum := 32
 	plaintext := input.String()
 	rawurl := input.URL
-	youTubeURL, err := config.ToYouTubeURL(rawurl)
-	if err != nil {
+	if err := config.ToYouTubeURL(rawurl).Validate(); err != nil {
 		return nil, err
 	}
 	key, iv, err := aes.GenerateKeyAndIV(uint32(byteNum))
@@ -47,7 +48,6 @@ func New(input Input) (*Container, error) {
 		IV:            string(iv),
 		Key:           key,
 		EncryptedText: encryptedText,
-		YoutubeURL:    youTubeURL,
 	}
 	return container, nil
 }
