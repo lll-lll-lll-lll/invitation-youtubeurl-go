@@ -38,9 +38,11 @@ services:
     tty: true
     ports:
       - "8080:8080"
+    env_file:
+      # .envファイル
+      - ./docker/.go_env
     volumes:
-      - ./backend:/app
-    working_dir: /app
+      - ./backend:/go/src/app
 
   pgweb:
     image: sosedoff/pgweb

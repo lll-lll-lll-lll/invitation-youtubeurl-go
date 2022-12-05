@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/config"
+	inv "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/container/invitation"
 	aes "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/crypto"
 )
 
@@ -24,6 +25,8 @@ type Container struct {
 	Key string `json:"key"`
 	// idとパスワードとYoutubeURLを含んだ暗号文
 	EncryptedText []byte `json:"encrypted_text"`
+	// 招待コード
+	Code string `json:"code"`
 }
 
 // New youtubeのurlと、idとパスワード、youtubeurlから生成した暗号文を持つコンテナを生成
@@ -31,6 +34,7 @@ func New(input Input) (*Container, error) {
 	byteNum := 32
 	plaintext := input.String()
 	rawurl := input.URL
+	code, err := inv.GenerateRandomCode()
 	if err := config.ToYouTubeURL(rawurl).Validate(); err != nil {
 		return nil, err
 	}
@@ -48,6 +52,7 @@ func New(input Input) (*Container, error) {
 		IV:            string(iv),
 		Key:           key,
 		EncryptedText: encryptedText,
+		Code:          code,
 	}
 	return container, nil
 }

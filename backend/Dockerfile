@@ -4,7 +4,8 @@ RUN apk update && \
     apk add bash git && \
     rm -rf /var/cache/apk/*
 
-WORKDIR /app
+RUN mkdir -p /go/src/app
+WORKDIR /go/src/app
 
 RUN apk update && \
     apk upgrade && \
@@ -15,9 +16,8 @@ RUN apk update && \
 ENV GOOS=linux \
     GOARCH=amd64 \
     CGO_ENABLED=0
-COPY ./ ./
+COPY backend/go.mod backend/go.sum ./
+COPY ./ /go/src/app
 RUN go mod download
-RUN go get github.com/lib/pq
-RUN go build cmd/main.go
 EXPOSE 8080
-CMD [ "./main" ]
+CMD ["go", "run", "cmd/main.go"]

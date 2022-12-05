@@ -1,6 +1,8 @@
 package invitation
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"errors"
 	"fmt"
 )
@@ -16,6 +18,16 @@ func (c Code) Validate() error {
 		return errors.New(fmt.Sprintf("code invalid. your code is %s", c))
 	}
 	return nil
+}
+
+func GenerateRandomCode() (string, error) {
+	length := 6
+	b := make([]byte, length)
+	_, err := rand.Read(b)
+	if err != nil {
+		return "", err
+	}
+	return base64.RawURLEncoding.EncodeToString(b), nil
 }
 
 func New(inputCode string) (*InvitationCode, error) {
