@@ -35,6 +35,7 @@ func main() {
 	})
 	router.Run(":8080")
 }
+
 func transaction(db *sqlx.DB, req interface{}, f func(req interface{}, db *sqlx.DB) error) error {
 	tx, err := db.Begin()
 	if err != nil {
