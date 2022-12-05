@@ -20,10 +20,12 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=app_db
     tty: true
+    ports:
+      - "5432:5432"
     restart: always
     user: root
     volumes:
-      - ./docker/init:/docker-entrypoint-initdb.d
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
       - /etc/localtime:/etc/localtime:ro
 
   app:
@@ -39,3 +41,16 @@ services:
     volumes:
       - ./backend:/app
     working_dir: /app
+
+  pgweb:
+    image: sosedoff/pgweb
+    container_name: pgweb
+    ports:
+      - "8081:8081"
+    environment:
+      - DATABASE_URL=postgres://app_user:password@postgres:5432/app_db?sslmode=disable
+    links:
+      - postgres:postgres
+    restart: always
+    depends_on:
+      - postgres
