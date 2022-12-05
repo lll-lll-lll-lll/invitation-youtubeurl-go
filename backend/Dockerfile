@@ -16,8 +16,8 @@ ENV GOOS=linux \
     GOARCH=amd64 \
     CGO_ENABLED=0
 COPY ./ ./
-# RUN go mod download
-# RUN go get github.com/lib/pq
-# RUN go build cmd/main.go
+RUN go mod download
+RUN go get github.com/lib/pq
+RUN go build cmd/main.go
 EXPOSE 8080
-# CMD [ "./main" ]
+CMD [ "./main" ]
