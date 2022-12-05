@@ -25,7 +25,7 @@ func (ps *PostgreSql) Open() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	sql := "SELECT user_id, user_password FROM TEST_USER WHERE user_id=$1;"
+	sql := "SELECT user_id, user_password FROM users WHERE user_id=$1;"
 
 	// preparedstatement の生成
 	pstatement, err := Db.Prepare(sql)
