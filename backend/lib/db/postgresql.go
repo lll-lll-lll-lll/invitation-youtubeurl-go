@@ -1,14 +1,13 @@
 package db
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/jmoiron/sqlx"
 )
 
 type PostgreSql struct {
-	datasource string
+	Db *sqlx.DB
 }
 
 func NewPostgreSql() *PostgreSql {
@@ -25,26 +24,5 @@ func (ps *PostgreSql) Open() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	sql := "SELECT user_id, user_password FROM users WHERE user_id=$1;"
-
-	// preparedstatement の生成
-	pstatement, err := Db.Prepare(sql)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// 検索パラメータ（ユーザID）
-	queryID := 1
-	// 検索結果格納用の TestUser
-	var user User
-
-	// queryID を埋め込み SQL の実行、検索結果1件の取得
-	err = pstatement.QueryRow(queryID).Scan(&user.UserID, &user.Password)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// 検索結果の表示
-	fmt.Println(user.UserID, user.Password)
-
+	ps.Db = Db
 }
