@@ -31,11 +31,8 @@ func (y YoutubeURL) ToStruct() (*url.URL, error) {
 	return u, nil
 }
 
-// ToYouTubeURL urlをYoutubeURL型に変換し、検査も行うメソッド
-func ToYouTubeURL(url string) (YoutubeURL, error) {
+// ToYouTubeURL urlをYoutubeURL型に変換するメソッド
+func ToYouTubeURL(url string) YoutubeURL {
 	u := YoutubeURL(url)
-	if err := u.Validate(); err != nil {
-		return "", err
-	}
-	return u, nil
+	return u
 }
