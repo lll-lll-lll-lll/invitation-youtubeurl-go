@@ -14,7 +14,7 @@ type Input struct {
 }
 
 func (i Input) String() string {
-	return fmt.Sprintf("%s%s", i.ID, i.Password)
+	return fmt.Sprintf("%s.%s.%s", i.ID, i.Password, i.URL)
 }
 
 type Container struct {
