@@ -15,7 +15,7 @@ func RegisterHandler(firebaseApp *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var input fb.RegisterUserBody
 		if err := ctx.BindJSON(&input); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"message": "faild to bind json"})
+			ctx.JSON(http.StatusBadRequest, gin.H{"message": "failed to bind json"})
 			return
 		}
 		userID := xid.New().String()
@@ -28,7 +28,8 @@ func RegisterHandler(firebaseApp *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 		}
 
 		if err := repository.InsertUser(req, db); err != nil {
-
+			ctx.JSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("ユーザ作成失敗. %s", err.Error())})
+			return
 		}
 		ctx.JSON(http.StatusCreated, gin.H{"message": record.UID})
 	}

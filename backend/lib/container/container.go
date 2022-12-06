@@ -2,7 +2,6 @@ package container
 
 import (
 	"fmt"
-
 	"github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/config"
 	inv "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/container/invitation"
 	aes "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/crypto"
@@ -24,7 +23,7 @@ type Container struct {
 	// 復号に使うkey
 	Key string `json:"key"`
 	// idとパスワードとYoutubeURLを含んだ暗号文
-	EncryptedText []byte `json:"encrypted_text"`
+	EncryptedText string `json:"encrypted_text"`
 	// 招待コード
 	Code string `json:"code"`
 }
@@ -42,16 +41,17 @@ func New(input Input) (*Container, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	cipher, err := aes.NewAES(key)
 	if err != nil {
 		return nil, err
 	}
 	encryptedText := aes.Encrypt(cipher, iv, plaintext)
+	ivs := string(iv)
+	ens := string(encryptedText)
 	container := &Container{
-		IV:            string(iv),
+		IV:            ivs,
 		Key:           key,
-		EncryptedText: encryptedText,
+		EncryptedText: ens,
 		Code:          code,
 	}
 	return container, nil

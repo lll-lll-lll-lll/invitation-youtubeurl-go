@@ -58,6 +58,7 @@ func CreateUserWithUID(ctx context.Context, client *auth.Client, req *RegisterUs
 	params := (&auth.UserToCreate{}).
 		UID(req.ID).
 		Email(req.Email).
+		EmailVerified(true).
 		Password(req.Password)
 	u, err := client.CreateUser(ctx, params)
 	if err != nil {

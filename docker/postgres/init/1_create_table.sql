@@ -8,12 +8,12 @@ CREATE DATABASE app_db;
 GRANT ALL PRIVILEGES ON DATABASE app_db TO app_db;
 
 CREATE TABLE users (
-    id UUID PRIMARY KEY NOT NULL COMMENT 'ユーザID',
-    name VARCHAR(255) NOT NULL COMMENT 'ユーザ名',
+    id VARCHAR(100) PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE invitation (
-    id UUID PRIMARY KEY NOT NULL references users(id) COMMENT '招待コードを生成したユーザ',
+    id VARCHAR(100) PRIMARY KEY NOT NULL references users(id),
     invitation_code VARCHAR(100) NOT NULL UNIQUE references invitation_codes(code),
     iv TEXT NOT NULL,
     key TEXT NOT NULL,
