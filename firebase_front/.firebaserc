@@ -1,0 +1,11 @@
+{
+  "projects": {
+    "]": "movie-seat-app",
+    "stagin": "movie-seat-app",
+    "movie-seat-client": "movie-seat-app",
+    "staging": "movie-seat-app",
+    "yuc": "url-converter-63740"
+  },
+  "targets": {},
+  "etags": {}
+}
