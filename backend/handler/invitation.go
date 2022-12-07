@@ -42,6 +42,7 @@ func Invitation(app *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 			return
 		}
 
+		// ユーザを外部キーに持ったinvitationテーブルにインサート
 		if err := InsertInvitationCodeWithUser(user.UID, con, db); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
@@ -60,7 +61,6 @@ type InvitationCodeWithUser struct {
 
 func InsertInvitationCodeWithUserFunc(req interface{}, db *sqlx.DB) error {
 	castedReq := req.(InvitationCodeWithUser)
-	fmt.Println(castedReq)
 	stmt, err := db.Prepare("INSERT INTO invitation(id, invitation_code, iv, key,encrypted_text ) VALUES($1,$2,$3,$4,$5)")
 	if err != nil {
 		return err
@@ -73,7 +73,7 @@ func InsertInvitationCodeWithUserFunc(req interface{}, db *sqlx.DB) error {
 }
 
 func InsertInvitationCodeWithUser(userID string, con *container.Container, db *sqlx.DB) error {
-	input := InvitationCodeWithUser{UserID: userID, InvitationCode: con.Code, IV: con.IV, Key: con.Key, EncryptedText: con.EncryptedText}
+	input := InvitationCodeWithUser{UserID: userID, InvitationCode: con.Code, IV: con.IV.ToHexString(), Key: con.Key, EncryptedText: con.EncryptedText.ToHexString()}
 	if err := repository.Transaction(db, input, InsertInvitationCodeWithUserFunc); err != nil {
 		return err
 	}

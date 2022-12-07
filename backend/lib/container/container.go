@@ -8,6 +8,18 @@ import (
 	aes "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/crypto"
 )
 
+type IVType []byte
+
+func (i *IVType) ToHexString() string {
+	return fmt.Sprintf("%x", i)
+}
+
+type EncryptedTextType []byte
+
+func (e *EncryptedTextType) ToHexString() string {
+	return fmt.Sprintf("%x", e)
+}
+
 type Input struct {
 	ID       string `json:"id"`
 	Password string `json:"password"`
@@ -20,11 +32,11 @@ func (i Input) String() string {
 
 type Container struct {
 	// 復号に使うIV
-	IV string `json:"iv"`
+	IV IVType `json:"iv"`
 	// 復号に使うkey
 	Key string `json:"key"`
 	// idとパスワードとYoutubeURLを含んだ暗号文
-	EncryptedText string `json:"encrypted_text"`
+	EncryptedText EncryptedTextType `json:"encrypted_text"`
 	// 招待コード
 	Code string `json:"code"`
 }
@@ -48,9 +60,9 @@ func New(input Input) (*Container, error) {
 	}
 	encryptedText := aes.Encrypt(cipher, iv, plaintext)
 	container := &Container{
-		IV:            fmt.Sprintf("%x", iv),
+		IV:            iv,
 		Key:           key,
-		EncryptedText: fmt.Sprintf("%x", encryptedText),
+		EncryptedText: encryptedText,
 		Code:          code,
 	}
 	return container, nil

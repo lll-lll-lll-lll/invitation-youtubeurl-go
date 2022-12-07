@@ -1,6 +1,7 @@
 package container
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/crypto"
@@ -35,6 +36,7 @@ func TestEncrypt(t *testing.T) {
 				t.Log(err.Error())
 			}
 			got := crypto.Decrypt(cipher, []byte(container.IV), tt.input.String(), []byte(container.EncryptedText))
+			fmt.Println(container.IV.ToHexString())
 			if string(got) != tt.want {
 				t.Logf("got %v, want %v", string(got), tt.want)
 			}
