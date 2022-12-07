@@ -4,6 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"fmt"
 	"io"
 )
 
@@ -31,11 +32,16 @@ func Encrypt(cBlock cipher.Block, iv []byte, plaintext string) []byte {
 	return ciphertext
 }
 
-func Decrypt(cBlock cipher.Block, iv []byte, plaintext string, ciphertext []byte) []byte {
+func Decrypt(cBlock cipher.Block, iv []byte, plaintext string, ciphertext []byte) (plaintextCopy []byte, errRes error) {
+	defer func() {
+		if err := recover(); err != nil {
+			errRes = fmt.Errorf("error: %s", err)
+		}
+	}()
 	cfbdec := cipher.NewCFBDecrypter(cBlock, iv)
-	plaintextCopy := make([]byte, len(plaintext))
+	plaintextCopy = make([]byte, len(plaintext))
 	cfbdec.XORKeyStream(plaintextCopy, ciphertext)
-	return plaintextCopy
+	return plaintextCopy, nil
 }
 
 // RandomString 指定したバイト数でランダムな文字列を生成するメソッド
