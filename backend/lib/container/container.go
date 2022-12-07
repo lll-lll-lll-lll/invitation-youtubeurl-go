@@ -27,7 +27,7 @@ type Input struct {
 }
 
 func (i Input) String() string {
-	return fmt.Sprintf("%s.%s.%s", i.ID, i.Password, i.URL)
+	return fmt.Sprintf("%s.%s", i.ID, i.Password)
 }
 
 type Container struct {
@@ -39,6 +39,8 @@ type Container struct {
 	EncryptedText EncryptedTextType `json:"encrypted_text"`
 	// 招待コード
 	Code string `json:"code"`
+	// youtube url
+	YoutubeURL string `json:"youtube_url"`
 }
 
 // New youtubeのurlと、idとパスワード、youtubeurlから生成した暗号文を持つコンテナを生成
@@ -64,6 +66,7 @@ func New(input Input) (*Container, error) {
 		Key:           key,
 		EncryptedText: encryptedText,
 		Code:          code,
+		YoutubeURL:    input.URL,
 	}
 	return container, nil
 }
