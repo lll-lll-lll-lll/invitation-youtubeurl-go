@@ -15,6 +15,7 @@ func NewAES(key string) (cipher.Block, error) {
 	return c, nil
 }
 
+// GenerateIV 暗号化する際に使用するランダムな文字列
 func GenerateIV() ([]byte, error) {
 	iv := make([]byte, aes.BlockSize)
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
@@ -52,6 +53,7 @@ func RandomString(byteNum uint32) (string, error) {
 	return result, nil
 }
 
+// GenerateKeyAndIV KeyとIVをまとめて生成するメソッド
 func GenerateKeyAndIV(byteNum uint32) (string, []byte, error) {
 	key, err := RandomString(uint32(byteNum))
 	if err != nil {
