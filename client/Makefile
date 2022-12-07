@@ -1,2 +1,0 @@
-deploy:
-	gcloud builds submit
