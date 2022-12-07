@@ -2,6 +2,7 @@ package container
 
 import (
 	"fmt"
+
 	"github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/config"
 	inv "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/container/invitation"
 	aes "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/crypto"
@@ -46,12 +47,10 @@ func New(input Input) (*Container, error) {
 		return nil, err
 	}
 	encryptedText := aes.Encrypt(cipher, iv, plaintext)
-	ivs := string(iv)
-	ens := string(encryptedText)
 	container := &Container{
-		IV:            ivs,
+		IV:            fmt.Sprintf("%x", iv),
 		Key:           key,
-		EncryptedText: ens,
+		EncryptedText: fmt.Sprintf("%x", encryptedText),
 		Code:          code,
 	}
 	return container, nil

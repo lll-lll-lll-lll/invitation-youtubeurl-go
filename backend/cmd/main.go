@@ -1,10 +1,11 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/lll-lll-lll-lll/youtube-url-converter-backend/handler"
 	fb "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/firebase"
-	"log"
 
 	db "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/db"
 )

@@ -2,12 +2,13 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/container"
 	fb "github.com/lll-lll-lll-lll/youtube-url-converter-backend/lib/firebase"
 	"github.com/lll-lll-lll-lll/youtube-url-converter-backend/repository"
-	"net/http"
 )
 
 // Invitation 招待コードを生成するハンドラー
@@ -41,7 +42,7 @@ func Invitation(app *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 			return
 		}
 
-		if err := insertInvitationCodeWithUser(user.UID, con, db); err != nil {
+		if err := InsertInvitationCodeWithUser(user.UID, con, db); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
@@ -57,7 +58,7 @@ type InvitationCodeWithUser struct {
 	EncryptedText  string `json:"encrypted_text"`
 }
 
-func insertInvitationCodeWithUserFunc(req interface{}, db *sqlx.DB) error {
+func InsertInvitationCodeWithUserFunc(req interface{}, db *sqlx.DB) error {
 	castedReq := req.(InvitationCodeWithUser)
 	fmt.Println(castedReq)
 	stmt, err := db.Prepare("INSERT INTO invitation(id, invitation_code, iv, key,encrypted_text ) VALUES($1,$2,$3,$4,$5)")
@@ -71,9 +72,9 @@ func insertInvitationCodeWithUserFunc(req interface{}, db *sqlx.DB) error {
 	return nil
 }
 
-func insertInvitationCodeWithUser(userID string, con *container.Container, db *sqlx.DB) error {
+func InsertInvitationCodeWithUser(userID string, con *container.Container, db *sqlx.DB) error {
 	input := InvitationCodeWithUser{UserID: userID, InvitationCode: con.Code, IV: con.IV, Key: con.Key, EncryptedText: con.EncryptedText}
-	if err := repository.Transaction(db, input, insertInvitationCodeWithUserFunc); err != nil {
+	if err := repository.Transaction(db, input, InsertInvitationCodeWithUserFunc); err != nil {
 		return err
 	}
 	return nil
