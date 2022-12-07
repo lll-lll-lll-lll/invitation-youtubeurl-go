@@ -35,7 +35,10 @@ func TestEncrypt(t *testing.T) {
 			if err != nil {
 				t.Log(err.Error())
 			}
-			got := crypto.Decrypt(cipher, []byte(container.IV), tt.input.String(), []byte(container.EncryptedText))
+			got, err := crypto.Decrypt(cipher, []byte(container.IV), tt.input.String(), []byte(container.EncryptedText))
+			if err != nil {
+				t.Log(err.Error())
+			}
 			fmt.Println(container.IV.ToHexString())
 			if string(got) != tt.want {
 				t.Logf("got %v, want %v", string(got), tt.want)
