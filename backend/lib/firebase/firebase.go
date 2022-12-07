@@ -81,8 +81,8 @@ type RegisterUser struct {
 	Name     string `json:"name" validate:"required"`
 }
 
-// FireBaseAuthRequired ユーザの認証用ミドルウェア
-func FireBaseAuthRequired(firebaseApp *FirebaseApp) gin.HandlerFunc {
+// FirebaseMiddleware ユーザの認証用ミドルウェア
+func FirebaseMiddleware(firebaseApp *FirebaseApp) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if !strings.HasPrefix(ctx.Request.Header.Get("Authorization"), "Bearer ") {
 			ctx.JSON(http.StatusUnauthorized, gin.H{"error": errors.New("not Set Authorization Token. set `Authorization: Bearer {Your Token}` on header")})

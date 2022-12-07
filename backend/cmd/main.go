@@ -19,7 +19,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	router.POST("/invitation_code", fb.FireBaseAuthRequired(firebaseApp), handler.Invitation(firebaseApp, postgresql.Db))
+	router.POST("/get_invitation_code", handler.GetYoutubeURLByInvitationCode(postgresql.Db))
+	router.POST("/create_invitation_code", fb.FirebaseMiddleware(firebaseApp), handler.Invitation(firebaseApp, postgresql.Db))
 	router.POST("/register", handler.RegisterHandler(firebaseApp, postgresql.Db))
 	router.Run(":8080")
 }
