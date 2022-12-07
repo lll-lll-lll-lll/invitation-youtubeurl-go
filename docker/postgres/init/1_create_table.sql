@@ -14,12 +14,11 @@ CREATE TABLE users (
 
 CREATE TABLE invitation (
     id VARCHAR(100) PRIMARY KEY NOT NULL references users(id),
-    invitation_code VARCHAR(100) NOT NULL UNIQUE references invitation_codes(code),
+    invitation_code VARCHAR(100) NOT NULL,
     iv TEXT NOT NULL,
     key TEXT NOT NULL,
-    encrypted_text TEXT NOT NULL
+    encrypted_text TEXT NOT NULL,
+    CONSTRAINT FK_Invitation_Code FOREIGN KEY (invitation_code) REFERENCES invitation_codes(code)
 );
 
-CREATE TABLE invitation_codes (
-    code VARCHAR(100) PRIMARY KEY NOT NULL UNIQUE
-);
+CREATE TABLE invitation_codes (code VARCHAR(100) PRIMARY KEY UNIQUE);
