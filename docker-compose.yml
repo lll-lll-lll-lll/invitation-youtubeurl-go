@@ -1,17 +1,5 @@
 version: "3"
 services:
-  # client:
-  #   environment:
-  #     - NODE_ENV="dev"
-  #   build: ./client
-  #   tty: true
-  #   ports:
-  #     - "3000:3000"
-  #   container_name: youtube-url-container
-  #   volumes:
-  #     - ./client:/app
-  #   command: sh -c "npm run dev"
-
   postgres:
     container_name: postgres
     image: postgres
@@ -39,7 +27,6 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      # .envファイル
       - ./docker/.go_env
     volumes:
       - ./backend:/go/src/app
