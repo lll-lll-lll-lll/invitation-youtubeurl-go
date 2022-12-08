@@ -17,3 +17,7 @@
 
 ### db接続
 psql -h localhost -U app_user -d app_db
+
+
+## 必要な設定
+- Firebaseのシークレット情報を含んだjsonファイル(account.json)
