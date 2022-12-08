@@ -18,6 +18,7 @@ CREATE TABLE invitation (
     iv TEXT NOT NULL,
     key TEXT NOT NULL,
     encrypted_text TEXT NOT NULL,
+    url TEXT NOT NULL,
     CONSTRAINT FK_Invitation_Code FOREIGN KEY (invitation_code) REFERENCES invitation_codes(code)
 );
 
