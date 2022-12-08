@@ -1,2 +1,4 @@
 .env
 account.json
+firebase-debug.log
+ui-debug.log
