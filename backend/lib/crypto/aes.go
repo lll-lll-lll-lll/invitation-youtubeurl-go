@@ -33,6 +33,7 @@ func Encrypt(cBlock cipher.Block, iv []byte, plaintext string) []byte {
 }
 
 func Decrypt(cBlock cipher.Block, iv []byte, plaintext string, ciphertext []byte) (plaintextCopy []byte, errRes error) {
+	// 復号の際に入力文字列が正しくないとpanicが発生することがあるので、そのリカバー
 	defer func() {
 		if err := recover(); err != nil {
 			errRes = fmt.Errorf("error: %s", err)

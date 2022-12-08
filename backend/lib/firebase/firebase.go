@@ -102,9 +102,7 @@ func FirebaseMiddleware(firebaseApp *FirebaseApp) gin.HandlerFunc {
 			return
 		}
 		ctx = SetTokenContext(ctx, token)
-		// 　ルーティング前に処理したいこと
 		ctx.Next()
-		//  ルーティング後に処理したいこと
 	}
 }
 

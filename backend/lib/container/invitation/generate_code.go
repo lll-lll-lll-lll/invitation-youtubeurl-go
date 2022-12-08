@@ -20,6 +20,7 @@ func (c Code) Validate() error {
 	return nil
 }
 
+// GenerateRandomCode 8文字のランダムな文字列を生成
 func GenerateRandomCode() (string, error) {
 	length := 6
 	b := make([]byte, length)

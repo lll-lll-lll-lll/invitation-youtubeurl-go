@@ -65,7 +65,7 @@ func GetYoutubeURLByInvitationCode(db *sqlx.DB) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": "Encrypted Textデコードの失敗"})
 			return
 		}
-		// IDとパスワードが正解かどうか
+		// IDとパスワードが正しいか
 		_, err = crypto.Decrypt(cipher, decodedIV, input.String(), decodedET)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("faild to decrypt. check whether password or id is wrong error is %s", err.Error())})
@@ -107,7 +107,7 @@ func Invitation(app *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
-
+		// dbにインサート
 		if err := repository.InsertInvitationCodeWithUser(user.UID, con, db); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return

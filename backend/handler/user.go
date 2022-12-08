@@ -18,6 +18,7 @@ func RegisterHandler(firebaseApp *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": "failed to bind json"})
 			return
 		}
+		// firebaseのuidとdbのuidを統一させるためサーバ側で生成
 		userID := xid.New().String()
 		req := &fb.RegisterUser{ID: userID, Email: input.Email, Password: input.Password, Name: input.Name}
 		// firebaseにユーザ登録
@@ -26,7 +27,7 @@ func RegisterHandler(firebaseApp *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("ユーザ作成に失敗しました")})
 			return
 		}
-
+		//dbにインサート
 		if err := repository.InsertUser(req, db); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("ユーザ作成失敗. %s", err.Error())})
 			return

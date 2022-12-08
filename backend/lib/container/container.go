@@ -43,15 +43,17 @@ type Container struct {
 	YoutubeURL string `json:"youtube_url"`
 }
 
-// New youtubeのurlと、idとパスワード、youtubeurlから生成した暗号文を持つコンテナを生成
+// New idとパスワードから生成した暗号文を持つコンテナを生成
 func New(input Input) (*Container, error) {
 	byteNum := 32
 	plaintext := input.String()
 	rawurl := input.URL
 	code, err := inv.GenerateRandomCode()
+	// youtubeのURLかどうかチェック
 	if err := config.ToYouTubeURL(rawurl).Validate(); err != nil {
 		return nil, err
 	}
+	//暗号化の際に使用するkeyとivを生成
 	key, iv, err := aes.GenerateKeyAndIV(uint32(byteNum))
 	if err != nil {
 		return nil, err
