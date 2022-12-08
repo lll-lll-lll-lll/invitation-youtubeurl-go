@@ -68,7 +68,7 @@ func GetYoutubeURLByInvitationCode(db *sqlx.DB) gin.HandlerFunc {
 		// IDとパスワードが正解かどうか
 		_, err = crypto.Decrypt(cipher, decodedIV, input.String(), decodedET)
 		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("faild to decrypt. error is %s", err.Error())})
+			ctx.JSON(http.StatusBadRequest, gin.H{"message": fmt.Sprintf("faild to decrypt. check whether password or id is wrong error is %s", err.Error())})
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{"message": invitationBody.YoutubeURL})
@@ -83,6 +83,8 @@ func Invitation(app *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": "faild to bind json"})
 			return
 		}
+
+		//TODO 匿名ユーザの場合招待コードは生成できないようにする
 		//ヘッダーからtoken取得
 		token, err := fb.GetTokenContext(ctx)
 		if err != nil {
