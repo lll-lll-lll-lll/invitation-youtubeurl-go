@@ -13,13 +13,13 @@ CREATE TABLE users (
 );
 
 CREATE TABLE invitation (
-    id VARCHAR(100) PRIMARY KEY NOT NULL references users(id),
+    id VARCHAR(100) NOT NULL references users(id),
     invitation_code VARCHAR(100) NOT NULL,
     iv TEXT NOT NULL,
     key TEXT NOT NULL,
     encrypted_text TEXT NOT NULL,
     url TEXT NOT NULL,
-    CONSTRAINT FK_Invitation_Code FOREIGN KEY (invitation_code) REFERENCES invitation_codes(code)
+    FOREIGN KEY (invitation_code) REFERENCES invitation_codes(code)
 );
 
 CREATE TABLE invitation_codes (code VARCHAR(100) PRIMARY KEY UNIQUE);
