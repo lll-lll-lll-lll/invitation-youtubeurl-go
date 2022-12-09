@@ -18,6 +18,10 @@ type InvitationCodeWithUser struct {
 
 func InsertInvitationCodeWithUserFunc(req interface{}, db *sqlx.DB) error {
 	castedReq := req.(InvitationCodeWithUser)
+	_, err := db.Exec("INSERT INTO invitation_codes(code) VALUES($1)", castedReq.InvitationCode)
+	if err != nil {
+		return err
+	}
 	stmt, err := db.Prepare("INSERT INTO invitation(id, invitation_code, iv, key,encrypted_text, url ) VALUES($1,(SELECT invitation_codes.code FROM invitation_codes WHERE code = $2),$3,$4,$5,$6)")
 	if err != nil {
 		return err

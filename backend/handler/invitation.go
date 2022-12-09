@@ -102,11 +102,6 @@ func Invitation(app *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
-		// 招待コードをinsert
-		if err := repository.InsertInvitationCode(con, db); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
-			return
-		}
 		// dbにインサート
 		if err := repository.InsertInvitationCodeWithUser(user.UID, con, db); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
