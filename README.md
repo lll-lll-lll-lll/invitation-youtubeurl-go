@@ -21,7 +21,7 @@ psql -h localhost -U app_user -d app_db
 <img width="1188" alt="スクリーンショット 2022-12-09 0 27 55" src="https://user-images.githubusercontent.com/63499912/206486255-43656b75-73a7-4273-b195-7efab76ba5ba.png">
 
 ## 必要な設定
-- Firebaseのシークレット情報を含んだjsonファイル(account.json)
+- Firebaseのシークレット情報を含んだjsonファイルをbackendディレクトリ内に入れる(account.json)
 
 
 #　処理の流れ
