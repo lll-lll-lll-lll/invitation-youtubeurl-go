@@ -28,7 +28,7 @@ psql -h localhost -U app_user -d app_db
 <img width="778" alt="スクリーンショット 2022-12-09 0 28 59" src="https://user-images.githubusercontent.com/63499912/206486551-f99cbf6e-4f02-475b-b29d-0419f6566b26.png">
 
 ### 2
-firebaseからjwtトークン取得し、そのトークンをAuthにセット<br/>
+firebaseからfirebaseIDトークン取得し、そのトークンをAuthにセット<br/>
 レスで招待コードを取得<br/>
 <img width="800" alt="スクリーンショット 2022-12-09 0 36 05" src="https://user-images.githubusercontent.com/63499912/206488661-320597dc-0904-49a1-b69b-877c5f7a5398.png">
 
