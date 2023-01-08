@@ -12,7 +12,8 @@ https://zenn.dev/jordan/articles/db2c4fd08e7387
 
 # 手こずったところ
 - aesで暗号化した際にbyteで返ってくるのだがそのbyteをstring()メソッドでutf8コード文字列に変えてもshiftjisにない文字が含まれている可能性があり、dbにインサートしようとすると文字化けが起きていてエラーが返ってくる<br/>
-なのでhexパッケージを使って16進数にエンコードし、インサートするようにした。
+~~なのでhexパッケージを使って16進数にエンコードし、インサートするようにした。~~
+テーブルカラムの型をbyteaで解決可能
 
 ### db接続
 psql -h localhost -U app_user -d app_db
