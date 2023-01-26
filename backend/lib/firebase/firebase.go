@@ -69,16 +69,16 @@ func CreateUserWithUID(ctx context.Context, client *auth.Client, req *RegisterUs
 }
 
 type RegisterUserBody struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
-	Name     string `json:"name" validate:"required"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
+	Name     string `json:"name" binding:"required"`
 }
 
 type RegisterUser struct {
-	ID       string `json:"id" validate:"required"`
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
-	Name     string `json:"name" validate:"required"`
+	ID       string `json:"id" binding:"required"`
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
+	Name     string `json:"name" binding:"required"`
 }
 
 // FirebaseMiddleware ユーザの認証用ミドルウェア

@@ -21,9 +21,9 @@ func (e *EncryptedTextType) ToHexString() string {
 }
 
 type Input struct {
-	ID       string `json:"id"`
-	Password string `json:"password"`
-	URL      string `json:"youtube_url"`
+	ID       string `json:"id" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	URL      string `json:"youtube_url" binding:"required"`
 }
 
 func (i Input) String() string {
