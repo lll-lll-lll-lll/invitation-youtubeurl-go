@@ -20,7 +20,7 @@ func main() {
 		log.Fatal(err.Error())
 	}
 	router.POST("/get_invitation_code", handler.GetYoutubeURLByInvitationCode(postgresql.Db))
-	// router.POST("/create_invitation_code", fb.FirebaseMiddleware(firebaseApp), handler.Invitation(firebaseApp, postgresql.Db))
+	router.POST("/create_invitation_code", fb.FirebaseMiddleware(firebaseApp), handler.Invitation(firebaseApp, postgresql.Db))
 	router.POST("/create_invitation_code_guest", handler.InvitationGuest(postgresql.Db))
 	router.POST("/register", handler.Register(firebaseApp, postgresql.Db))
 	router.Run(":8080")

@@ -125,7 +125,6 @@ func InvitationGuest(db *sqlx.DB) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
-		// dbにインサート
 		if err := repository.InsertInvitationCodeWithGuest(con, db); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
