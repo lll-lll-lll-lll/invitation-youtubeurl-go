@@ -11,7 +11,7 @@ import (
 	"github.com/rs/xid"
 )
 
-func RegisterHandler(firebaseApp *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
+func Register(firebaseApp *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var input fb.RegisterUserBody
 		if err := ctx.BindJSON(&input); err != nil {
