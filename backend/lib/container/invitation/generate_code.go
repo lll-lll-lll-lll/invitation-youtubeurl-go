@@ -22,7 +22,7 @@ func (c Code) Validate() error {
 
 // GenerateRandomCode 8文字のランダムな文字列を生成
 func GenerateRandomCode() (string, error) {
-	length := 6
+	length := 8
 	b := make([]byte, length)
 	_, err := rand.Read(b)
 	if err != nil {
