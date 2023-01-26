@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -42,7 +43,7 @@ func GetYoutubeURLByInvitationCode(db *sqlx.DB) gin.HandlerFunc {
 			return
 		}
 		var invitationBody InvitationBody
-		if err := db.QueryRowx("SELECT * FROM invitation WHERE invitation_code = $1", input.Code).StructScan(&invitationBody); err != nil {
+		if err := db.QueryRowx("SELECT * FROM invitation_guest WHERE invitation_code = $1", input.Code).StructScan(&invitationBody); err != nil {
 			if err == sql.ErrNoRows {
 				ctx.JSON(http.StatusBadRequest, fmt.Errorf("code is %v: unknown", input.Code))
 				return
@@ -107,6 +108,29 @@ func Invitation(app *fb.FirebaseApp, db *sqlx.DB) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 			return
 		}
+		ctx.JSON(http.StatusCreated, gin.H{"message": con.Code})
+	}
+}
+
+// InvitationGuest 招待コードを生成するハンドラー
+func InvitationGuest(db *sqlx.DB) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var input container.Input
+		if err := ctx.BindJSON(&input); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"message": "faild to bind json"})
+			return
+		}
+		con, err := container.New(input)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+		// dbにインサート
+		if err := repository.InsertInvitationCodeWithGuest(con, db); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+		log.Println("DBインサート成功")
 		ctx.JSON(http.StatusCreated, gin.H{"message": con.Code})
 	}
 }
