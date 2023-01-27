@@ -42,28 +42,3 @@ func InsertInvitationCodeWithUser(userID string, con *container.Container, db *s
 	}
 	return nil
 }
-
-// func InsertInvitationCode(con *container.Container, db *sqlx.DB) error {
-// 	postCode := PostCode{Code: con.Code}
-// 	if err := Transaction(db, postCode, insertCodeFunc); err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
-
-// type PostCode struct {
-// 	Code string `json:"code"`
-// }
-
-// func insertCodeFunc(req interface{}, db *sqlx.DB) error {
-// 	castedReq := req.(PostCode)
-// 	stmt, err := db.Prepare("INSERT INTO invitation_codes(code) VALUES($1)")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	_, err = stmt.Exec(castedReq.Code)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
