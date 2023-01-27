@@ -9,7 +9,7 @@ async function handler(req: NextRequest, res: NextApiResponse) {
             body: req.body
         })
         if (res.statusCode != 200) {
-            throw new Error("")
+            throw new Error("400")
         }
         const data = await response.json()
         return res.status(201).json(data)

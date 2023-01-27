@@ -11,6 +11,7 @@ function Index() {
     const { password, onChangePass } = passwordRes
     const [invitationCode, setInvitationCode] = useState<string>("")
     const [showPassword, setShowPassword] = useState(false)
+    const [error, setError] = useState<string>("")
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -19,24 +20,31 @@ function Index() {
     const onClickForm = async (e: any) => {
         e.preventDefault()
         const data = await GenInvitationCode({ id: id, password: password, url: url })
+        if (data.message === "400") {
+            setError(data.message)
+            setClicked(true)
+            return
+        }
+        setError("")
         setInvitationCode(data.message)
         setClicked(true)
     }
 
     async function GenInvitationCode({ id, password, url }: { id: string, password: string, url: string }) {
         try {
-            console.log("Gen Code メソッド実行前")
             const res = await fetch("/api/gencode", {
                 method: "POST",
                 body: JSON.stringify({ "id": id, "password": password, "youtube_url": url })
             })
             const data = await res.json()
-            console.log("Gen Code メソッド実行後")
+            if (res.status === 400) {
+                throw new Error("400")
+            }
             return data
         } catch (err: any) {
             console.log(err)
+            return err
         }
-
     }
 
     return (
@@ -80,9 +88,12 @@ function Index() {
                             </button>
                         </form>
                         <div className={styles.qrcode}>
-                            {clicked && (
+                            {clicked && !error ? (
                                 <div>{invitationCode}</div>
-                            )}
+                            ) : (
+                                <div>
+                                    {"招待コードの生成に失敗しました"}
+                                </div>)}
                         </div>
                     </div>
                 </div>

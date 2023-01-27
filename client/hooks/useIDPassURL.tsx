@@ -24,7 +24,7 @@ export function useURL(setClicked: (value: SetStateAction<boolean>) => void): UR
     const onChangeURL = (e: any) => {
         e.preventDefault()
         setURL(e.target.value)
-        setClicked((state: boolean) => !state)
+        setClicked((state: boolean) => false)
     }
     return { url, setURL, onChangeURL }
 }
@@ -34,7 +34,7 @@ export function useID(setClicked: (value: SetStateAction<boolean>) => void): IDR
     const onChangeID = (e: any) => {
         e.preventDefault()
         setID(e.target.value)
-        setClicked((state: boolean) => !state)
+        setClicked((state: boolean) => false)
     }
     return { id, setID, onChangeID }
 }
