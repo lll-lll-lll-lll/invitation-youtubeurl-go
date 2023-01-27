@@ -14,15 +14,16 @@ CREATE TABLE users (
 
 CREATE TABLE invitation_codes (code VARCHAR(255) UNIQUE PRIMARY KEY);
 
--- CREATE TABLE invitation (
---     id VARCHAR(255) NOT NULL references users(id),
---     invitation_code VARCHAR(255) NOT NULL,
---     iv TEXT NOT NULL,
---     key TEXT NOT NULL,
---     encrypted_text TEXT NOT NULL,
---     url TEXT NOT NULL,
---     FOREIGN KEY (invitation_code) REFERENCES invitation_codes(id)
--- );
+CREATE TABLE invitation (
+    id VARCHAR(255) NOT NULL references users(id),
+    invitation_code VARCHAR(255) NOT NULL,
+    iv TEXT NOT NULL,
+    key TEXT NOT NULL,
+    encrypted_text TEXT NOT NULL,
+    url TEXT NOT NULL,
+    FOREIGN KEY (invitation_code) REFERENCES invitation_codes(code)
+);
+
 CREATE TABLE invitation_guest (
     id SERIAL PRIMARY KEY,
     invitation_code VARCHAR(255) NOT NULL,
